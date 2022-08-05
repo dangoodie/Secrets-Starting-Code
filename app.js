@@ -4,8 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-const encrypt = require("mongoose-encryption");
-
+const hash = require("hash.js");
 
 const app = express();
 
@@ -19,8 +18,6 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
 });
-
-userSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
 
 const User = new mongoose.model("User", userSchema);
 
@@ -39,7 +36,7 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   const newUser = new User({
     email: req.body.username,
-    password: req.body.password,
+    password: hash.sha256().update(req.body.password).digest("hex"),
   });
 
   newUser.save((err) => {
@@ -54,14 +51,18 @@ app.post("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
   const username = req.body.username;
-  const password = req.body.password;
+  const password = hash.sha256().update(req.body.password).digest("hex");
 
   User.findOne({ email: username }, (err, foundUser) => {
     if (!err) {
       if (foundUser) {
         if (foundUser.password === password) {
           res.render("secrets");
+        } else {
+          res.send("Wrong password");
         }
+      } else {
+        res.send("No user found");
       }
     } else {
       console.log(err);
