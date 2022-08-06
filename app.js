@@ -30,14 +30,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect(
-  "mongodb+srv://admin-daniel:" + process.env.MONGODB_PASSWORD + "@cluster0.5nqsu.mongodb.net/userDB"
+  "mongodb+srv://admin-daniel:" +
+    process.env.MONGODB_PASSWORD +
+    "@cluster0.5nqsu.mongodb.net/userDB"
 );
 
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   googleId: String,
-  facebookId: String
+  facebookId: String,
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -70,7 +72,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile.id);
-      console.log(profile.emails)
+      console.log(profile.emails);
       User.findOrCreate(
         { googleId: profile.id, username: profile.emails[0].value },
         function (err, user) {
@@ -110,7 +112,7 @@ app.get("/", (req, res) => {
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email", "id"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 app.get(
@@ -124,7 +126,7 @@ app.get(
 
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", {scope: ["email", "profile", "id"]})
+  passport.authenticate("facebook", { scope: ["email", "profile"] })
 );
 
 app.get(
@@ -205,5 +207,5 @@ app.post("/login", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Server started on port 3000");
+  console.log("Server started on Heroku");
 });
