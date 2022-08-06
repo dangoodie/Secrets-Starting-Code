@@ -112,7 +112,7 @@ app.get(
 
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["profile"] })
+  passport.authenticate("facebook")
 );
 
 app.get(
