@@ -83,6 +83,7 @@ passport.use(
   )
 );
 
+
 passport.use(
   new FacebookStrategy(
     {
@@ -90,8 +91,6 @@ passport.use(
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL:
         "https://blooming-depths-46268.herokuapp.com/auth/facebook/secrets",
-      passReqToCallback: true,
-      profileFields: ["id", "displayName", "emails"],
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
