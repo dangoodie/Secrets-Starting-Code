@@ -34,7 +34,7 @@ mongoose.connect(
 );
 
 const userSchema = new mongoose.Schema({
-  email: String,
+  username: String,
   password: String,
   googleId: String,
   facebookId: String
@@ -71,7 +71,7 @@ passport.use(
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
       User.findOrCreate(
-        { googleId: profile.id, email: profile.email },
+        { googleId: profile.id, username: profile.email },
         function (err, user) {
           return cb(err, user);
         }
@@ -91,7 +91,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
-      User.findOrCreate({ facebookId: profile.id, email: profile.email }, function (err, user) {
+      User.findOrCreate({ facebookId: profile.id, username: profile.email }, function (err, user) {
         return cb(err, user);
       });
     }
