@@ -66,13 +66,13 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL:
         "https://blooming-depths-46268.herokuapp.com/auth/google/secrets",
-      profileFields: ["id", "displayName", "email"],
+      profileFields: ["id", "displayName", "emails"],
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile.id);
-      console.log(profile.email)
+      console.log(profile.emails)
       User.findOrCreate(
-        { googleId: profile.id, username: profile.email },
+        { googleId: profile.id, username: profile.emails[0].value },
         function (err, user) {
           return cb(err, user);
         }
@@ -95,7 +95,7 @@ passport.use(
       console.log(profile.id);
       console.log(profile.emails);
       User.findOrCreate(
-        { facebookId: profile.id, username: profile.email },
+        { facebookId: profile.id, username: profile.emails[0].value },
         function (err, user) {
           return cb(err, user);
         }
@@ -124,7 +124,7 @@ app.get(
 
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", {scope: ["profile, email"]})
+  passport.authenticate("facebook", {scope: ["email"]})
 );
 
 app.get(
