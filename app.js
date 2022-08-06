@@ -90,11 +90,12 @@ passport.use(
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL:
         "https://blooming-depths-46268.herokuapp.com/auth/facebook/secrets",
+      profileFields: ["emails"],
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
       User.findOrCreate(
-        { facebookId: profile, username: profile.emails[0].value },
+        { facebookId: profile},
         function (err, user) {
           return cb(err, user);
         }
