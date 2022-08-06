@@ -83,7 +83,6 @@ passport.use(
   )
 );
 
-
 passport.use(
   new FacebookStrategy(
     {
@@ -94,12 +93,12 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
-      // User.findOrCreate(
-      //   { facebookId: profile, username: profile.emails[0].value },
-      //   function (err, user) {
-      //     return cb(err, user);
-      //   }
-      // );
+      User.findOrCreate(
+        { facebookId: profile, username: profile.emails[0].value },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
     }
   )
 );
@@ -124,7 +123,7 @@ app.get(
 
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook")
+  passport.authenticate("facebook", { scope: ["email"] })
 );
 
 app.get(
