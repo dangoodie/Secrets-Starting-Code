@@ -124,7 +124,7 @@ app.get(
 
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", {scope: ["email"]})
+  passport.authenticate("facebook", {scope: ["email,profile"]})
 );
 
 app.get(
