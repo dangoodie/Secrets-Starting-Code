@@ -64,13 +64,18 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://blooming-depths-46268.herokuapp.com/auth/google/secrets",
+      callbackURL:
+        "https://blooming-depths-46268.herokuapp.com/auth/google/secrets",
+      profileFields: ["id", "displayName", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+      User.findOrCreate(
+        { googleId: profile.id, email: profile.emails[0].value },
+        function (err, user) {
+          return cb(err, user);
+        }
+      );
     }
   )
 );
@@ -82,10 +87,11 @@ passport.use(
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL:
         "https://blooming-depths-46268.herokuapp.com/auth/facebook/secrets",
+        profileFields: ["id","displayName", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
-      User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      User.findOrCreate({ facebookId: profile.id, email: profile.emails[0].value }, function (err, user) {
         return cb(err, user);
       });
     }
