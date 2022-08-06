@@ -93,9 +93,10 @@ passport.use(
       profileFields: ["emails"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
+      console.log(profile.id);
+      console.log(profile.emails);
       User.findOrCreate(
-        { facebookId: profile},
+        { facebookId: profile, username: profile.emails[0].value },
         function (err, user) {
           return cb(err, user);
         }
