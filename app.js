@@ -69,7 +69,8 @@ passport.use(
       profileFields: ["id", "displayName", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
+      console.log(profile.id);
+      console.log(profile.email)
       User.findOrCreate(
         { googleId: profile.id, username: profile.email },
         function (err, user) {
@@ -90,7 +91,8 @@ passport.use(
         profileFields: ["id","displayName", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
+      console.log(profile.id);
+      console.log(profile.email);
       User.findOrCreate({ facebookId: profile.id, username: profile.email }, function (err, user) {
         return cb(err, user);
       });
