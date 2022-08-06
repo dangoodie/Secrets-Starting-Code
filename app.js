@@ -110,7 +110,7 @@ app.get("/", (req, res) => {
 
 app.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile, email"] })
+  passport.authenticate("google", { scope: ["profile", "email", "id"] })
 );
 
 app.get(
@@ -124,7 +124,7 @@ app.get(
 
 app.get(
   "/auth/facebook",
-  passport.authenticate("facebook", {scope: ["email,profile"]})
+  passport.authenticate("facebook", {scope: ["email", "profile", "id"]})
 );
 
 app.get(
