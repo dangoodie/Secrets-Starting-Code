@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect(
-  "mongodb+srv://admin-daniel:" +
+  "mongodb+srv://" + process.env.MONGODB_USERNAME + ":" +
     process.env.MONGODB_PASSWORD +
     "@cluster0.5nqsu.mongodb.net/userDB"
 );
