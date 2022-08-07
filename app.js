@@ -71,8 +71,6 @@ passport.use(
       profileFields: ["id", "displayName", "emails"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile.id);
-      console.log(profile.emails);
       User.findOrCreate(
         { googleId: profile.id, username: profile.emails[0].value },
         function (err, user) {
@@ -93,8 +91,6 @@ passport.use(
       profileFields: ["emails"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile.id);
-      console.log(profile.emails[0].value);
       User.findOrCreate(
         { facebookId: profile.id, username: profile.emails[0].value },
         function (err, user) {
@@ -204,6 +200,11 @@ app.post("/login", (req, res) => {
     }
   });
 });
+
+app.post("/submit", (req, res) => {
+  const submittedSecret = req.body.secret;
+  console.log(req.user);
+})
 
 app.listen(PORT, () => {
   console.log("Server started on Heroku");
